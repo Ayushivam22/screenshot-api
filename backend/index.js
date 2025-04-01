@@ -26,7 +26,18 @@ app.get("/screenshot", async (req, res) => {
     console.log(`Received request to capture: ${url}`);
 
     try {
-        const browser = await puppeteer.launch({ headless: "new" });
+        const browser = await puppeteer.launch({
+            headless: "new",
+            executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || "/usr/bin/google-chrome",
+            args: [
+              "--no-sandbox",
+              "--disable-setuid-sandbox",
+              "--disable-dev-shm-usage",
+              "--disable-accelerated-2d-canvas",
+              "--disable-gpu",
+            ],
+          });
+          
         const page = await browser.newPage();
 
         console.log("Opening page...");
