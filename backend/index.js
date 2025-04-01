@@ -5,7 +5,6 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const cors = require("cors");
 
 app.use(cors({
   origin: 'https://screenshot-api-ixpy.vercel.app',  // Allow only this domain
