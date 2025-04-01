@@ -15,6 +15,9 @@ app.use(cors({
 
 
 app.get("/screenshot", async (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
     const url = req.query.url;
 
     if (!url) {
@@ -36,8 +39,6 @@ app.get("/screenshot", async (req, res) => {
         console.log("Screenshot taken successfully.");
         await browser.close();
 
-        res.setHeader("Content-Disposition", "attachment; filename=screenshot.png");
-        res.setHeader("Content-Type", "image/png");
 
         const fileStream = fs.createReadStream(imagePath);
         fileStream.pipe(res);
