@@ -5,11 +5,14 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-app.use(cors());
+const cors = require("cors");
+
 app.use(cors({
-    origin: 'https://screenshot-api-ixpy.vercel.app/',  // Replace this with the actual frontend URL
-  }));
-  
+  origin: 'https://screenshot-api-ixpy.vercel.app',  // Allow only this domain
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+}));
+
 
 app.get("/screenshot", async (req, res) => {
     const url = req.query.url;
