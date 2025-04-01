@@ -1,6 +1,6 @@
 document.getElementById("screenshot-btn").addEventListener("click", async () => {
     try {
-      const response = await fetch(`http://localhost:5000/screenshot?url=${encodeURIComponent(window.location.href)}`);
+      const response = await fetch(`https://screenshot-api-two.vercel.app/screenshot?url=${encodeURIComponent(window.location.href)}`);
       if (!response.ok) {
         throw new Error("Failed to capture screenshot. Please make sure the backend server is running.");
       }
