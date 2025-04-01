@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pinterest Marketing Infographic</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #eaf6f6;
+        text-align: center;
+      }
+      .hr {
+        width: 100%;
+        height: 5px;
+        background-color: #066a75;
+        margin: 20px auto;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+      h1 {
+        color: #066a75;
+      }
+      .timeline {
+        position: absolute;
+        left: 50%;
+        top: 10%;
+        margin-top: 5px;
+        bottom: 0;
+        width: 4px;
+        background-color: #066a75;
+        transform: translateX(-50%);
+      }
+      .step {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 40px 0;
+        position: relative;
+        width: 100%;
+      }
+      .step:nth-child(odd) {
+        flex-direction: row-reverse;
+      }
+      .step-number {
+        font-size: 120px;
+        font-weight: bold;
+        color: #066a75;
+        width: 150px;
+        height: 150px;
+        text-align: center;
+        background: white;
+        position: relative;
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.127);
+        border-radius: 50%;
+        z-index: 1;
+      }
+      .step-number::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        height: 4px;
+        background-color: #066a75;
+        transform: translateY(-50%);
+      }
+      .step:nth-child(odd) .step-number::before {
+        right: 100%;
+      }
+      .step:nth-child(even) .step-number::before {
+        left: 100%;
+      }
+      .step-content {
+        width: 45%;
+        background: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+      }
+      .step-content h2 {
+        color: #066a75;
+        margin: 0;
+        font-size: 16px;
+      }
+      .step-content p {
+        margin: 5px 0;
+        color: #333;
+        font-size: 14px;
+      }
+      button {
+        margin-top: 20px;
+        padding: 10px 15px;
+        font-size: 16px;
+        background-color: #066a75;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #044d56;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Harnessing Infographics for Effective Pinterest Marketing</h1>
+      <div class="hr"></div>
+      <div class="timeline"></div>
+
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h2>Enhancing Visual Appeal</h2>
+          <p>Infographics leverage visually appealing designs, which capture users' attention quickly.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h2>Boosting Brand Awareness</h2>
+          <p>Consistent use of infographics helps in building brand identity and recall.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h2>Encouraging Shares and Saves</h2>
+          <p>Infographics are highly shareable content that encourages users to pin and save.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div>
+        <div class="step-content">
+          <h2>Driving Traffic to Websites</h2>
+          <p>Infographics can include call-to-actions (CTAs) linking back to your website.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">5</div>
+        <div class="step-content">
+          <h2>Leveraging SEO Benefits</h2>
+          <p>Proper tagging with keywords and descriptions enhances SEO on Pinterest.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">6</div>
+        <div class="step-content">
+          <h2>Creating Educational Content</h2>
+          <p>Infographics can serve as educational tools or tutorials for your audience.</p>
+        </div>
+      </div>
+      <button id="screenshot-btn">Take Screenshot</button>
+    </div>
+    
+    <script>
+      document.getElementById("screenshot-btn").addEventListener("click", async () => {
+        try {
+          const response = await fetch(`http://localhost:5000/screenshot?url=${encodeURIComponent(window.location.href)}`);
+          if (!response.ok) {
+            throw new Error("Failed to capture screenshot. Please make sure the backend server is running.");
+          }
+          const blob = await response.blob();
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "screenshot.png";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } catch (error) {
+          console.error("Error taking screenshot:", error);
+          alert("Screenshot failed! Ensure the server is running and try again.");
+        }
+      });
+    </script>
+  </body>
+</html>
