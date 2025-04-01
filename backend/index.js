@@ -1,4 +1,3 @@
-// Import required modules
 const express = require('express');
 const puppeteer = require('puppeteer-core');
 const chromium = require('chrome-aws-lambda');
@@ -6,17 +5,13 @@ const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 
-// Initialize express app
 const app = express();
-
-// Use CORS middleware (you can configure the origin as needed)
 app.use(cors({
   origin: 'https://screenshot-api-ixpy.vercel.app',
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type'],
 }));
 
-// Define routes
 app.get("/screenshot", async (req, res) => {
   const url = req.query.url;
 
@@ -28,9 +23,9 @@ app.get("/screenshot", async (req, res) => {
 
   try {
     const browser = await puppeteer.launch({
-      args: chromium.args,
-      executablePath: await chromium.executablePath,
-      headless: chromium.headless,
+      args: chromium.args, // Use arguments that allow Chromium to run in serverless environments
+      executablePath: await chromium.executablePath, // Path to the Chromium binary provided by chrome-aws-lambda
+      headless: chromium.headless, // Run in headless mode
     });
 
     const page = await browser.newPage();
