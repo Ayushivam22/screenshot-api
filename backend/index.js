@@ -1,6 +1,22 @@
+// Import required modules
+const express = require('express');
 const puppeteer = require('puppeteer-core');
-const chromium = require('chrome-aws-lambda'); // Import chrome-aws-lambda
+const chromium = require('chrome-aws-lambda');
+const fs = require('fs');
+const path = require('path');
+const cors = require('cors');
 
+// Initialize express app
+const app = express();
+
+// Use CORS middleware (you can configure the origin as needed)
+app.use(cors({
+  origin: 'https://screenshot-api-ixpy.vercel.app',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+}));
+
+// Define routes
 app.get("/screenshot", async (req, res) => {
   const url = req.query.url;
 
@@ -44,3 +60,7 @@ app.get("/screenshot", async (req, res) => {
     res.status(500).json({ error: "Failed to capture screenshot", details: error.message });
   }
 });
+
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
