@@ -3,12 +3,11 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "nodemon": "^3.1.9",
-    "puppeteer": "^24.5.0"
+    "puppeteer-core": "^24.5.0"
   },
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js"
