@@ -28,12 +28,15 @@ module.exports = async (req, res) => {
         const page = await browser.newPage();
         await page.goto(url, { waitUntil: "networkidle2" });
 
-        const screenshot = await page.screenshot();
+        // Capture screenshot as JPEG
+        const screenshot = await page.screenshot({ type: "jpeg", quality: 80 });
 
         await browser.close();
 
-        // Send the image with the correct headers
-        res.setHeader("Content-Type", "image/png");
+        // Set response headers to trigger download
+        res.setHeader("Content-Type", "image/jpeg");
+        res.setHeader("Content-Disposition", 'attachment; filename="screenshot.jpg"');
+
         res.send(screenshot);
 
     } catch (error) {
