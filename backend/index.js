@@ -28,11 +28,13 @@ module.exports = async (req, res) => {
         const page = await browser.newPage();
         await page.goto(url, { waitUntil: "networkidle2" });
 
-        const screenshot = await page.screenshot({ encoding: "base64" });
+        const screenshot = await page.screenshot();
+
         await browser.close();
 
-        // Send JSON response with correct headers
-        res.status(200).json({ screenshot });
+        // Send the image with the correct headers
+        res.setHeader("Content-Type", "image/png");
+        res.send(screenshot);
 
     } catch (error) {
         res.status(500).json({
