@@ -1,61 +1,35 @@
-const express = require('express');
-const puppeteer = require('puppeteer-core');
-const chromium = require('chrome-aws-lambda');
-const fs = require('fs');
-const path = require('path');
-const cors = require('cors');
+import puppeteer from 'puppeteer';
+import express from 'express';
+import cors from 'cors';
 
 const app = express();
-app.use(cors({
-  origin: 'https://screenshot-api-ixpy.vercel.app',
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type'],
-}));
+app.use(cors());
 
-app.get("/screenshot", async (req, res) => {
-  const url = req.query.url;
-
-  if (!url) {
-    return res.status(400).json({ error: "URL is required" });
-  }
-
-  console.log(`Received request to capture: ${url}`);
-
+app.get('/screenshot', async (req, res) => {
   try {
-    const browser = await puppeteer.launch({
-      args: chromium.args, // Use arguments that allow Chromium to run in serverless environments
-      executablePath: await chromium.executablePath, // Path to the Chromium binary provided by chrome-aws-lambda
-      headless: chromium.headless, // Run in headless mode
-    });
-
+    // Launch the browser
+    const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
-    console.log("Opening page...");
-    await page.goto(url, { waitUntil: "networkidle2" });
 
-    const imagePath = path.join(__dirname, "screenshot.png");
-    await page.screenshot({ path: imagePath, fullPage: true });
+    // Navigate to the URL
+    await page.goto('https://screenshot-api-ixpy.vercel.app/', { waitUntil: 'networkidle2' });
 
-    console.log("Screenshot taken successfully.");
+    // Set screen size
+    await page.setViewport({ width: 1080, height: 1024 });
+
+    // Capture the screenshot as a buffer
+    const screenshot = await page.screenshot({ fullPage: true });
     await browser.close();
 
-    res.setHeader("Content-Disposition", "attachment; filename=screenshot.png");
-    res.setHeader("Content-Type", "image/png");
-
-    const fileStream = fs.createReadStream(imagePath);
-    fileStream.pipe(res);
-
-    fileStream.on("end", () => {
-      fs.unlink(imagePath, (err) => {
-        if (err) console.error("Error deleting file:", err);
-      });
-    });
-
+    // Set headers and send the image
+    res.setHeader('Content-Disposition', 'attachment; filename="screenshot.png"');
+    res.setHeader('Content-Type', 'image/png');
+    res.send(screenshot);
   } catch (error) {
-    console.error("Error capturing screenshot:", error);
-    res.status(500).json({ error: "Failed to capture screenshot", details: error.message });
+    console.error('Error capturing screenshot:', error);
+    res.status(500).json({ error: 'Failed to capture screenshot' });
   }
 });
 
-// Start the server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
