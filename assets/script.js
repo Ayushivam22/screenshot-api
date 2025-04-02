@@ -1,6 +1,6 @@
 document.getElementById("screenshot-btn").addEventListener("click", async () => {
   try {
-      const response = await fetch(`https://screenshot-api-be.vercel.app/screenshot?url=https://www.google.com`);
+      const response = await fetch(`https://screenshot-api-be.vercel.app/screenshot?url=https://screenshot-api-lake.vercel.app/`);
 
       if (!response.ok) {
           throw new Error(`Failed to capture screenshot: ${response.statusText}`);
