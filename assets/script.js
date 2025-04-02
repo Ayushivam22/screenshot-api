@@ -4,7 +4,7 @@ document
   .addEventListener("click", async () => {
     try {
       const response =
-        await fetch(`https://screenshot-api-sc7s.vercel.app/screenshot?url=https://www.google.com`);
+        await fetch(`https://screenshot-api-be.vercel.app/screenshot?url=https://www.google.com`);
       if (!response.ok) {
         throw new Error(
           "Failed to capture screenshot. Please make sure the backend server is running.",error
