@@ -1,12 +1,17 @@
 {
-  "functions": {
-    "api/screenshot.js": {
-      "runtime": "nodejs20.x",
-      "memory": 512
-    }
-  },
-
   "version": 2,
-  "builds": [{ "src": "index.js", "use": "@vercel/node" }],
+  "builds": [
+    {
+      "src": "api/screenshot.js",
+      "use": "@vercel/node",
+      "config": {
+        "memory": 512
+      }
+    },
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
   "routes": [{ "src": "/(.*)", "dest": "/index.js" }]
 }
